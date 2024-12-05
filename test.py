@@ -1,5 +1,3 @@
 import FastRename
-import os
 
-
-FastRename.Rename("C:/Users/rzxha/Desktop/1", "C:/Users/rzxha/Desktop/2")
+FastRename.Rename(path1, path2, start_idx, end_idx)
