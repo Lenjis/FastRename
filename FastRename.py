@@ -1,7 +1,28 @@
 import os
 import re
+import shutil
 
 pattern = re.compile(r"[0-9]*(?=A_)")
+
+
+def Merge(path1: str, path2: str):
+    """
+    Parameters:
+    path (str, optional): The directory path to be processed.
+    """
+    print("Merging files...")
+    try:
+        for filename in os.listdir(os.path.join(path1, "input")):
+            shutil.move(
+                os.path.join(path1, "input", filename), os.path.join(path2, "input")
+            )
+        for filename in os.listdir(os.path.join(path1, "output")):
+            shutil.move(
+                os.path.join(path1, "output", filename), os.path.join(path2, "output")
+            )
+        print("Files merged.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 
 def RemoveIndex(path="./"):
@@ -43,8 +64,16 @@ def AddIndex(path="./", start_idx=1, end_idx=None):
                     match = re.search(pattern, filename)
                     if match:
                         newname = str(idx) + filename
-                        os.rename(os.path.join(path, filename), os.path.join(path, newname))
+                        os.rename(
+                            os.path.join(path, filename), os.path.join(path, newname)
+                        )
                         idx += 1
         print("Index added.")
     except Exception as e:
         print(f"An error occurred: {e}")
+
+
+def Rename(path1: str, path2: str, start_idx=1, end_idx=None):
+    Merge(path1, path2)
+    RemoveIndex(path2)
+    AddIndex(path2, start_idx, end_idx)
